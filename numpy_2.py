@@ -78,9 +78,20 @@ print(np.sum(x, axis=0))    # 각 열에 대한 합을 연산. 출력 "[4 6]"
 print(np.sum(x, axis=1))    # 각 행에 대한 합을 연산. 출력 "[3, 7]"
 # Numpy 가 제공하는 모든 수학함수의 목록은 다른 문서를 참조바랍니다.
 
-# 4. 브로드캐스팅 (나중에,,)
+x = np.array([[1,2,3,4], [5,6,7,8]])
+
+x = np.array([[1, 2], [3, 4]])
+y = np.array([[5, 6], [7, 8]])
+print(x.shape)
+print(y.shape)
+
+v = np.array([9, 10])
+w = np.array([11, 12])
+print(v.shape)
+print(w.shape)
 
 
+# 4. 브로드캐스팅 
 # RNN
 
 
