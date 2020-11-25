@@ -1,0 +1,240 @@
+출처: https://doorbw.tistory.com/171 [Tigercow.Door]
+
+
+
+
+data1 = [1, 2, 3, 4, 5]
+arr1 = np.array(data1)		#넘파이 어레이 정의
+arr1.shape = (5,)		# array 의 형태(크기)를 확인할 수 있다.
+arr2 = np.array([1,2,3,4,5])
+arr2.shape = (5,)		# 1차원이며 총 5의 크기
+arr2.dtype = dtype('int64')	# array의 자료형 확인
+arr4 = np.array([[1,2,3],[4,5,6],[7,8,9],[10,11,12]])
+arr4.shape = (4, 3)		# 2차원이며 총 4*3 의 크기
+
+- numpy 자료형
+부호가 있는 정수 int(8, 16, 32, 64)
+부호가 없는 정수 uint(8 ,16, 32, 54)
+실수 float(16, 32, 64, 128)
+복소수 complex(64, 128, 256)
+불리언 bool
+문자열 string_
+파이썬 오프젝트 object
+유니코드 unicode_
+
+
+np.zeros(10) = array([0,0,0,0,0,0,0,0,0,0])
+np.zeros(4, 3) = array([[0,0,0],
+			[0,0,0],
+			[0,0,0],
+			[0,0,0]])
+# 인자로 받는 크기만큼, 모든 요소가 0인 array
+np.ones(3) = array([1,1,1])
+np.arrange(10) = array([0,1,2,3,4,5,6,7,8,9])
+
+- array 연산
+
+1) 덧셈
+arr1 + arr2
+2) 뺄셈
+arr1 - arr2
+3) array 곱셈
+arr1 * arr2
+4) 나눗셈
+arr1 / arr2
+
+- array 의 브로드캐스트 :
+numpy에서는 브로드캐스트 기능을 제공한다.
+브로드캐스트란 서로 크기가 다른 array 가 연산이 가능하게끔 하는 것
+arr1 = array([[1,2,3,],
+		[4,5,6]])
+arr1.shape = (2, 3)
+arr2 = np.array([10, 11, 12])
+arr2.shape= (3,)
+
+arr1 + arr2
+= array([[11 13, 15],
+	[14, 16, 18]])
+# arr2가  [[10, 11, 12], [10, 11, 12]] 로 자동확장되어 계산되었다.
+
+arr1 * 10
+= array([[10, 20, 30], [40, 50, 60]])
+
+arr1 ** 2	# 요소에 대한 제곱처리도 가능하다.
+= array([[1, 4, 9], [15, 25, 36]])
+
+- array 인덱싱
+: 기본적으로 python 인덱싱과 동일하다.
+이때, python에서와 같이 1번째로 시작하는 것이 아니라 0번째로 시작하는 것에 주의한다.
+
+arr1 = np.arrange(10)
+arr1 = array([0,1,2,3,4,5,6,7,8,9])
+
+0번째 요소
+arr1[0] = 0
+
+3번째 요소
+arr1[3] = 3
+
+3번째부터 8번째 요소까지
+arr1[3:9] = array([3,4,5,6,7,8])
+
+arr1[:] = array([0,1,2,3,4,5,6,7,8,9])
+
+
+# 1차원 이상의 인덱싱도 가능하다.
+arr2 = np.array([[1,2,3,4], [5,6,7,8], [9, 10, 11, 12]])
+# 2차원의 array에서 인덱싱을 하기 위해선 2개의 인자를 입력해야한다.
+arr2[0, 0] = 1
+arr2[2, :] = 2행의 모든 요소 꺼내기 = array([9, 10, 11, 12])
+
+arr2[2, 3] = 2행의 3번째 요소 꺼내기 = 1
+
+arr2[:, 3] = 모든 열의 3번째 요소 꺼내기 = array([4, 8, 12])
+
+- array boolean 인덱싱 (마스크)
+위에서 이용한 다차원의 인덱싱을 응용하여 boolean 인덱싱을 할 수 있다.
+names = np.array(['Beomwoo','Beomwoo','Kim','Joan','Lee','Beomwoo','Park','Beomwoo'])
+names.shape = (8,)
+# 아래에서 사용되는 np.random.randn() 함수는 기대값이 0이고, 표준편차가 1인 가우시안 정규 분포를 따르는 난수를
+발생시키는 함수이다.
+# 이 외에서도 0~1 의 난수를 발생시키는 np.random.rand() 함수도 존재한다.
+data = np.random.randn(8, 4)		# 4개씩 8줄
+data
+
+# 위의 names의 각 요소가 data의 각 행과 연결된다고 가정하자.
+해당 기능은 주로 마스크라고 이야기하는데, boolean인덱싱을 통해 만들어낸 array를 통해
+우리가 원하는 행 또는 열의 값만 뽑아낼 수 있다.		# 복사? 인건가 그냥 보여주기로
+즉, 마스크처럼 우리가 가리고 싶은 부분은 가리고, 원하는 요소만 꺼낼 수 있다.
+# 그리고 이때, names 가 Beomwoo인 행의 data만 보고 싶을 때 다음과 같이 마스크를 사용한다.
+names_Beomwoo_mask = (names == 'Beomwoo')
+print('names_Beomwoo_mask') = array([ True, True, False, False, False, True, False, True])
+# 0번째, 1번째, 5번째, 7번째 이므로, data 에서 0, 1, 5, 7행의 모든 요소를 꺼내와야 한다.
+data[names_Beomwoo_mask, :]
+이를 위해 요소가 Beomwoo인  것에 대한 boolean 값을 가지는 mask 를 만들었고
+마스크를 인덱싱에 응용하여 data의 0, 1, 5, 7행을 꺼냈다.
+
+# 논리 연산을 응용하여, 요소가 kim 또는 park인 행의 데이터만 꺼내기
+data[(names == 'kim)] | (names == 'park'), :]
+
+# 물론 data array 자체적으로도 마스크를 만들고, 이를 응용하여 인덱싱이 가능하다.
+# data array 에서 0번째 열의 값이 0보다 작은 행을 구해보자.
+
+# 먼저 마스크를 만든다 = data array 에서 0번째 열이 0보다 작은 요소의 boolean 값은 다음과 같다.
+data[:, 0] < 0	-> 행은 상관없고 0번째 열의 요소를 골라서, 이게 0보다 작으면! true 인 것
+= array([ True, False,  True, False, False, False,  True, False])
+
+# 위에서 만든 마스크를 이용하여 0번째 열의 값이 0보다 작은 행을 구한다.
+data[data[:, 0] < 0, :]
+
+
+- 드디어 Numpy 함수
+
+arr1 = np.random.randn(5, 3)		# 랜덤의 범위는?
+array([[-1.28394941, -1.38235479, 0.3676742 ], [ 0.91707237, 0.45364032, 0.00683315], [ 0.51191795, 0.39014894, -0.15396686], [ 0.75541648, -3.0457677 , 0.83785171], [ 0.36609986, 1.2300834 , 0.51764117]])
+
+# 각 성분의 절대값 계산하기
+np.abs(arr1)
+# 제곱근 / 제곱 차이
+# 각 성분의 제곱근 계산하기 (== array ** 0.5)	# 제곱근을 제곱했을 때 해당 값이 나오는 것 제곱과 반대 개념 정도
+np.sqrt(arr1)		# 때문에 음수는 nan 이 나옴
+
+# 각 성분의 제곱 계산하기
+np.square(arr1)
+
+# 각 성분을 무리수 e의 지수로 삼은 값을 계산하기 ...?
+np.exp(arr1)
+
+# 각 성분을 자연로그, 상용로그, 밑이 2인 로그를 씌운 값을 계산하기
+np.log(arr1)
+np.log10(arr1)
+np.log2(arr1)
+
+# 각 성분의 부호 계산하기 (+인 경우 1, -인 경우 -1, 0인 경우 0)
+np.sign(arr1)
+
+# 각 성분의 소수 첫 번째 자리에서 올림한 값을 계산하기
+np.ceil(arr1)
+
+# 각 성분의 소수 첫 번째 자리에서 내림한 값을 계산하기
+np.floor(arr1)
+
+# 각 성분이 NaN인 경우 True를 , 아닌 경우 False를 반환하기
+np.isnan(arr1)
+
+# 각 성분이 무한대인 경우 True를, 아닌 경우 False 를 반환하기
+np.isinf(arr1)
+
+# 각 성분에 대한 삼각함수 값을 계산하기 (cos, cosh, sin, sinh, tan, tanh)
+np.cos(arr1)
+np.tanh(arr1)
+...
+
+
+- 2개의 array에 적용되는 함수
+
+# 두 개의 array에 대해 동일한 위치의 성분끼리 연산 값을 계산하기
+(add, subtract, multiply, divide)
+np.multiply(x, y)
+
+# 두 개의 array에 대해 동일한 위치의 성분끼리 비교하여 최대값 또는 최소값 계산하기
+(maximum, minimum)
+np.maximum(x, y)
+
+
+- NumPy 통계 함수 : 통계 함수를 통해 array의 합이나 평균 등을 구할 때,
+추가로 axis라는 인자에 대한 값을 지정하여 열 또는 행의 합 또는 평균 등을 구할 수 있다.
+
+# 전체 성분의 합을 계산
+np.sum(arr1)
+
+# 열 간의 합을 계산
+np.sum(arr1, axis=1)
+# 행 간의 합을 계산
+np.sum(arr1, axis=0)
+# 그럼 axis는 0 아니면 1인건가?
+
+# 전체 성분의 표준편차, 분산, 최소값, 최대값 계산 (std, var, min, max)
+np.std(arr1)
+np.min(arr1, axis= 1)		# 열 간의 최소값 계산
+
+# 전체 성분의 최소값, 최대값이 위치한 인덱스를 반환(argmin, argmax)
+np.argmin(arr1)		# 그럼 여기는 axis= 가 없겠군
+아니네 있네
+np.argmax(arr1, axis=0)
+
+# 맨 처음 성분부터 각 성분까지 누적합 또는 누적곱을 계산(cumsum, cumprod)
+np.cumsum(arr1)		...?
+# 다시 보기
+
+- 기타 함수
+
+np.sort(arr1) # 전체 성분에 대해서 오름차순으로 정렬
+np.sort(arr1)[::-1]	# "" 내림차순으로 정렬
+# 행 방향으로 오름차순으로 정렬
+np.sort(arr1, axis = 0)
+
+
+RNN은 매 순간 입력과 출력이 있다. DMLP는 입력층, 출력층이 하나씩 있다.
+RNN은 가중치를 공유 한다.
+RNN은 공유하는 가중치가 하나이므로 W로 표기하면 된다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

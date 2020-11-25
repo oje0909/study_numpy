@@ -51,7 +51,7 @@ d = torch.randn(5, 3)
 if torch.cuda.is_available():
     c = c.cuda()
     d = d.cuda()
-    print(x + y)
+    # print(x + y)
 
 
 """
@@ -59,5 +59,9 @@ Tensor 는 Numpy 의 ndarrays 와 유사한 것으로 계산 속도를 빠르게
 수 있는 것이라고 보면 된다.
 """
 
+
+import torch
+
+print(torch.zeros(5, 3))
 
 
